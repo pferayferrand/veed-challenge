@@ -15,6 +15,15 @@ const useStyles = createUseStyles({
     justifyContent: 'center',
     alignItems: 'center',
   },
+  options: {
+    display: 'flex',
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+  },
+  slider: {
+    marginBottom: 16,
+  },
 })
 
 const App = () => {
@@ -29,16 +38,18 @@ const App = () => {
   return (
     <main className={classes.main}>
       <h1 className={classes.title}>Veed challenge</h1>
-      <label htmlFor="showFavorites">
-        <input
-          type="checkbox"
-          id="showFavorites"
-          name="showFavorites"
-          role="switch"
-          onClick={() => setShowFavorites(!showFavorites)}
-        />
-        Show favorited repositories
-      </label>
+      <div className={classes.slider}>
+        <label htmlFor="showFavorites">
+          <input
+            type="checkbox"
+            id="showFavorites"
+            name="showFavorites"
+            role="switch"
+            onClick={() => setShowFavorites(!showFavorites)}
+          />
+          Show favorite repositories
+        </label>
+      </div>
       {showFavorites ? <FavoritesList /> : <RepositoryList />}
     </main>
   )

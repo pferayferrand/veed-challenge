@@ -6,6 +6,7 @@ import { createUseStyles } from 'react-jss'
 import { AiFillStar, AiOutlineStar } from 'react-icons/ai'
 import { IoTimer } from 'react-icons/io5'
 import { FaLaptopCode } from 'react-icons/fa'
+import { RiGitRepositoryLine } from 'react-icons/ri'
 
 const useStyles = createUseStyles({
   article: {
@@ -22,6 +23,8 @@ const useStyles = createUseStyles({
   },
   repoTitle: {
     marginBottom: 4,
+    display: 'flex',
+    alignItems: 'center',
   },
   text: {
     display: 'flex',
@@ -67,6 +70,7 @@ const Card = ({
       <div className={classes.container}>
         <div className={classes.leftContainer}>
           <h4 className={classes.repoTitle}>
+            <RiGitRepositoryLine className={classes.icon} />
             <a href={html_url}>{full_name}</a>
           </h4>
           <small>{description}</small>
