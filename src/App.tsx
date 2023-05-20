@@ -7,7 +7,7 @@ import { toggleFavorite } from './redux/slices/favoritesSlice'
 
 const App = () => {
   const dispatch = useAppDispatch()
-  const repositories = useAppSelector(state => state.repositories)
+  const repositories = useAppSelector(state => state.repositories.data)
 
   useEffect(() => {
     dispatch(fetchRepositories())
@@ -24,6 +24,9 @@ const App = () => {
             toggleFavorite={repo => dispatch(toggleFavorite(repo))}
           />
         ))}
+      </div>
+      <div>
+        <button onClick={() => dispatch(fetchRepositories())}>Load more</button>
       </div>
     </div>
   )

@@ -1,19 +1,19 @@
 import dayjs from 'dayjs'
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
-import type { PayloadAction } from '@reduxjs/toolkit'
 import type Repository from '../../types/repository'
 import { GITHUB_API_URL } from '../../config/constants'
 import { toggleFavorite } from './favoritesSlice'
 import { RootState } from '../store'
 
 export const fetchRepositories = createAsyncThunk<
-  any,
+  Repository[],
   void,
   { state: RootState }
 >('repositories/fetchRepositories', async (_, { getState }) => {
+  const page = getState().repositories.page
   const from = dayjs().subtract(7, 'day').format('YYYY-MM-DD')
   const response = await fetch(
-    `${GITHUB_API_URL}?q=created:>${from}&sort=stars&order=desc`
+    `${GITHUB_API_URL}?q=created:>${from}&sort=stars&order=desc&page=${page}`
   )
   const res = await response.json()
   const favorites = getState().favorites
@@ -29,27 +29,27 @@ export const fetchRepositories = createAsyncThunk<
   }))
 })
 
-const initialState: Repository[] = []
-
 export const repositoriesSlice = createSlice({
   name: 'repositories',
-  initialState,
+  initialState: {
+    isLoading: false,
+    page: 1,
+    data: [] as Repository[],
+  },
   reducers: {
     increment: state => {
       state
     },
   },
   extraReducers(builder) {
-    builder.addCase(
-      fetchRepositories.fulfilled,
-      (_, action: PayloadAction<Repository[]>) => {
-        return action.payload
-      }
-    ),
+    builder.addCase(fetchRepositories.fulfilled, (state, action) => {
+      state.data = [...state.data, ...action.payload]
+      state.page++
+    }),
       builder.addCase(toggleFavorite, (state, action) => {
         const repo = action.payload
-        const index = state.findIndex(item => item.id === repo.id)
-        state[index].is_favorite = !state[index].is_favorite
+        const index = state.data.findIndex(item => item.id === repo.id)
+        state.data[index].is_favorite = !state.data[index].is_favorite
       })
   },
 })
