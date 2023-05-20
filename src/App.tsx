@@ -3,9 +3,22 @@ import RepositoryList from './features/RepositoriesList'
 import { useAppDispatch } from './redux/hooks'
 import { fetchRepositories } from './redux/slices/repositoriesSlice'
 import FavoritesList from './features/FavoritesList'
-import { css } from '@emotion/react'
+import { createUseStyles } from 'react-jss'
+
+const useStyles = createUseStyles({
+  main: {
+    paddingLeft: 32,
+    paddingRight: 32,
+  },
+  title: {
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+})
 
 const App = () => {
+  const classes = useStyles()
   const dispatch = useAppDispatch()
   const [showFavorites, setShowFavorites] = useState(false)
 
@@ -14,13 +27,8 @@ const App = () => {
   }, [])
 
   return (
-    <main
-      css={css`
-        padding-left: 32px;
-        padding-right: 32px;
-      `}
-    >
-      <h1>Veed challenge</h1>
+    <main className={classes.main}>
+      <h1 className={classes.title}>Veed challenge</h1>
       <label htmlFor="showFavorites">
         <input
           type="checkbox"

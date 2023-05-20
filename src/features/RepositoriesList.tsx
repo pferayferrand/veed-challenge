@@ -3,6 +3,7 @@ import { useAppDispatch, useAppSelector } from '../redux/hooks'
 import { fetchRepositories } from '../redux/slices/repositoriesSlice'
 import { toggleFavorite } from '../redux/slices/favoritesSlice'
 import Card from '../components/Card'
+import Loading from '../components/Loading'
 
 const RepositoryList = () => {
   const dispatch = useAppDispatch()
@@ -17,7 +18,7 @@ const RepositoryList = () => {
   }
 
   return page === 1 && isLoading ? (
-    <p>Loading...</p>
+    <Loading />
   ) : (
     <>
       <div>
@@ -30,7 +31,7 @@ const RepositoryList = () => {
         ))}
       </div>
       {page > 1 && isLoading ? (
-        <p>Loading...</p>
+        <Loading />
       ) : (
         <div>
           <button onClick={() => loadMore()}>Load more</button>
