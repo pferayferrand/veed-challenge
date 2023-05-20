@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import { useAppDispatch, useAppSelector } from '../redux/hooks'
 import { fetchRepositories } from '../redux/slices/repositoriesSlice'
 import { toggleFavorite } from '../redux/slices/favoritesSlice'
@@ -10,10 +10,6 @@ const RepositoryList = () => {
     state => state.repositories
   )
   const [page, setPage] = useState(1) // keeping this value at component level in case we want to add pagination instead of load more button
-
-  useEffect(() => {
-    dispatch(fetchRepositories({ page: 1 }))
-  }, [])
 
   const loadMore = () => {
     dispatch(fetchRepositories({ page: page + 1 }))

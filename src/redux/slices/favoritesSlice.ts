@@ -10,7 +10,9 @@ export const favoritesSlice = createSlice({
     toggleFavorite: (state, action: PayloadAction<Repository>) => {
       const repo = action.payload
       const fav = state.find(favorite => favorite.id === repo.id)
-      fav ? state.splice(state.indexOf(fav), 1) : state.push(repo)
+      fav
+        ? state.splice(state.indexOf(fav), 1)
+        : state.push({ ...repo, is_favorite: true })
     },
   },
 })

@@ -55,7 +55,9 @@ export const repositoriesSlice = createSlice({
       builder.addCase(toggleFavorite, (state, action) => {
         const repo = action.payload
         const index = state.data.findIndex(item => item.id === repo.id)
-        state.data[index].is_favorite = !state.data[index].is_favorite
+        if (index >= 0) {
+          state.data[index].is_favorite = !state.data[index].is_favorite
+        }
       })
   },
 })
