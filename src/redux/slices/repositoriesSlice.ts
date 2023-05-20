@@ -7,10 +7,9 @@ import { RootState } from '../store'
 
 export const fetchRepositories = createAsyncThunk<
   Repository[],
-  void,
+  { page: number },
   { state: RootState }
->('repositories/fetchRepositories', async (_, { getState }) => {
-  const page = getState().repositories.page
+>('repositories/fetchRepositories', async ({ page }, { getState }) => {
   const from = dayjs().subtract(7, 'day').format('YYYY-MM-DD')
   const response = await fetch(
     `${GITHUB_API_URL}?q=created:>${from}&sort=stars&order=desc&page=${page}`
@@ -32,7 +31,7 @@ export const fetchRepositories = createAsyncThunk<
 export const repositoriesSlice = createSlice({
   name: 'repositories',
   initialState: {
-    isLoading: false,
+    isLoading: true,
     page: 1,
     data: [] as Repository[],
   },
@@ -45,7 +44,14 @@ export const repositoriesSlice = createSlice({
     builder.addCase(fetchRepositories.fulfilled, (state, action) => {
       state.data = [...state.data, ...action.payload]
       state.page++
+      state.isLoading = false
     }),
+      builder.addCase(fetchRepositories.pending, state => {
+        state.isLoading = true
+      }),
+      builder.addCase(fetchRepositories.rejected, state => {
+        state.isLoading = false
+      }),
       builder.addCase(toggleFavorite, (state, action) => {
         const repo = action.payload
         const index = state.data.findIndex(item => item.id === repo.id)
