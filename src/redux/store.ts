@@ -1,4 +1,8 @@
-import { combineReducers, configureStore } from '@reduxjs/toolkit'
+import {
+  PreloadedState,
+  combineReducers,
+  configureStore,
+} from '@reduxjs/toolkit'
 import repositoriesReducer from './slices/repositoriesSlice'
 import favoritesReducer from './slices/favoritesSlice'
 import storage from 'redux-persist/lib/storage'
@@ -13,7 +17,7 @@ import {
   REGISTER,
 } from 'redux-persist'
 
-const reducers = combineReducers({
+const rootReducer = combineReducers({
   repositories: repositoriesReducer,
   favorites: favoritesReducer,
 })
@@ -24,18 +28,23 @@ const persistConfig = {
   whitelist: ['favorites'],
 }
 
-const persistedReducer = persistReducer(persistConfig, reducers)
+const persistedReducer = persistReducer(persistConfig, rootReducer)
 
-export const store = configureStore({
-  reducer: persistedReducer,
-  middleware: getDefaultMiddleware =>
-    getDefaultMiddleware({
-      serializableCheck: {
-        ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
-      },
-    }),
-})
+export const setupStore = (preloadedState?: PreloadedState<RootState>) =>
+  configureStore({
+    reducer: persistedReducer,
+    preloadedState,
+    middleware: getDefaultMiddleware =>
+      getDefaultMiddleware({
+        serializableCheck: {
+          ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
+        },
+      }),
+  })
+
+export const store = setupStore()
 export const persistor = persistStore(store)
 
-export type RootState = ReturnType<typeof store.getState>
-export type AppDispatch = typeof store.dispatch
+export type RootState = ReturnType<typeof rootReducer>
+export type AppStore = ReturnType<typeof setupStore>
+export type AppDispatch = AppStore['dispatch']
