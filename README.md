@@ -8,6 +8,10 @@
 4. Run `npm run dev`
 5. Open the local URL generated (in the console)
 
+OR
+
+Simply use the deployed version of the app: https://veed-challenge-nkog4bgcx-pierreferay-ferrand.vercel.app/
+
 ## How to run the tests (after following the steps above)
 
 1. Run `npm run test`
