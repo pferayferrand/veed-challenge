@@ -2,7 +2,7 @@ import { rest } from 'msw'
 import { GITHUB_API_URL } from '../config/constants'
 
 export const handlers = [
-  rest.get(GITHUB_API_URL, (req, res, ctx) => {
+  rest.get(GITHUB_API_URL, (_, res, ctx) => {
     return res(
       ctx.status(200),
       ctx.json({

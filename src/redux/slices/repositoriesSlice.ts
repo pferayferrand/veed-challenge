@@ -4,6 +4,7 @@ import { toggleFavorite } from './favoritesSlice'
 import { RootState } from '../store'
 import { getRepositories } from '../../api/repositories'
 import { toast } from 'react-hot-toast'
+import { AxiosError } from 'axios'
 
 export const fetchRepositories = createAsyncThunk<
   Repository[],
@@ -26,11 +27,13 @@ export const fetchRepositories = createAsyncThunk<
         is_favorite: !!favorites.find((fav: Repository) => fav.id === item.id),
       }))
     } catch (error) {
-      toast.error(
-        error.response.status === 403
-          ? 'API rate exceeded. Please wait a bit and retry'
-          : 'Something went wrong, please try again.'
-      )
+      if (error) {
+        toast.error(
+          (error as AxiosError)?.response?.status === 403
+            ? 'API rate exceeded. Please wait a bit and retry'
+            : 'Something went wrong, please try again.'
+        )
+      }
       return Promise.reject(error)
     }
   }
