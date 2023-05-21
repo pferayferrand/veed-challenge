@@ -10,7 +10,7 @@
 
 OR
 
-Simply use the deployed version of the app: https://veed-challenge-nkog4bgcx-pierreferay-ferrand.vercel.app/ 🚀
+Simply use the deployed version of the app: https://veed-challenge.vercel.app/ 🚀
 
 ## How to run the tests (after following the steps above)
 
