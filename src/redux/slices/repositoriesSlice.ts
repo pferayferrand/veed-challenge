@@ -3,6 +3,7 @@ import type Repository from '../../types/repository'
 import { toggleFavorite } from './favoritesSlice'
 import { RootState } from '../store'
 import { getRepositories } from '../../api/repositories'
+import { toast } from 'react-hot-toast'
 
 export const fetchRepositories = createAsyncThunk<
   Repository[],
@@ -11,18 +12,27 @@ export const fetchRepositories = createAsyncThunk<
 >(
   'repositories/fetchRepositories',
   async ({ page, language }, { getState }) => {
-    const res = await getRepositories(page, language)
-    const favorites = getState().favorites
-    return res.items.map((item: any) => ({
-      id: item.id,
-      full_name: item.full_name,
-      description: item.description,
-      html_url: item.html_url,
-      stars: item.stargazers_count,
-      language: item.language,
-      created_at: item.created_at,
-      is_favorite: !!favorites.find((fav: Repository) => fav.id === item.id),
-    }))
+    try {
+      const res = await getRepositories(page, language)
+      const favorites = getState().favorites
+      return res.items.map((item: any) => ({
+        id: item.id,
+        full_name: item.full_name,
+        description: item.description,
+        html_url: item.html_url,
+        stars: item.stargazers_count,
+        language: item.language,
+        created_at: item.created_at,
+        is_favorite: !!favorites.find((fav: Repository) => fav.id === item.id),
+      }))
+    } catch (error) {
+      toast.error(
+        error.response.status === 403
+          ? 'API rate exceeded. Please wait a bit and retry'
+          : 'Something went wrong, please try again.'
+      )
+      return Promise.reject(error)
+    }
   }
 )
 
