@@ -22,7 +22,7 @@ const useStyles = createUseStyles({
 const Loading = () => {
   const classes = useStyles()
   return (
-    <div className={classes.container}>
+    <div className={classes.container} test-id="loader">
       <CgSpinner className={classes.loader} />
     </div>
   )

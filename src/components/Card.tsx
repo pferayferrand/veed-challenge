@@ -41,6 +41,15 @@ const useStyles = createUseStyles({
     alignItems: 'center',
     paddingTop: 4,
     paddingBottom: 4,
+    '@media (max-width: 576px)': {
+      padding: 4,
+    },
+  },
+  buttonText: {
+    marginLeft: 8,
+    '@media (max-width: 576px)': {
+      display: 'none',
+    },
   },
   icon: {
     marginRight: 4,
@@ -94,11 +103,11 @@ const Card = ({
             className={classes.button}
           >
             {is_favorite ? (
-              <AiFillStar className={classes.icon} />
+              <AiFillStar data-testid="fill-star" />
             ) : (
-              <AiOutlineStar className={classes.icon} />
-            )}{' '}
-            Star
+              <AiOutlineStar data-testid="outline-star" />
+            )}
+            <div className={classes.buttonText}>Star</div>
           </button>
         </div>
       </div>
