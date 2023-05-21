@@ -10,7 +10,7 @@
 
 OR
 
-Simply use the deployed version of the app: https://veed-challenge-nkog4bgcx-pierreferay-ferrand.vercel.app/
+Simply use the deployed version of the app: https://veed-challenge-nkog4bgcx-pierreferay-ferrand.vercel.app/ 🚀
 
 ## How to run the tests (after following the steps above)
 
@@ -40,4 +40,4 @@ For this reason I used a few libraries (for more readable code and faster develo
 
 - Vitest (as I used Vite as the bundler)
 - React Testing Library
-- MSW (for mocking API calls - can also be used for developemnt purposes with minimal changes)
+- MSW (for mocking API calls - can also be used for development purposes with minimal changes)
